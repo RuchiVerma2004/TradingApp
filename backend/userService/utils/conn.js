@@ -1,5 +1,5 @@
 const mongoose = require('mongoose')
-const URL = process.env.MONGO_URI
+const URL = process.env.MONGO_URL
 
 mongoose.connect(URL)
 mongoose.Promise = global.Promise

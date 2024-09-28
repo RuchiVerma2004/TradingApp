@@ -1,59 +1,18 @@
-const express = require('express');
-require('dotenv').config();
+const express = require('express')
+require('dotenv').config()
+const app = express()
+app.use(express.json())
+const helloRoutes = require('./routes/hello.route')
+const userRoutes = require('./routes/user.route')
+app.use('/api/v1/', helloRoutes)
+app.use('/api/v1/user', userRoutes)
 
-const app = express();
-
-
-
-const users = [
-    {
-        name: "ruchi",
-        email: "abc@gmail.com",
-        id: 1
-    },
-    {
-        name: "mayank",
-        email: "abc@gmail.com",
-        id: 2
-    },
-    {
-        name: "abcd",
-        email: "abc@gmail.com",
-        id: 3
-    }
-]
-
-app.get('/', function (req, res) {
-    try {
-        res.send('Hello World')
-    } catch (err) {
-        console.log("something went wrong");
-    }
+// username, email, password, 
+// user registration --> username, email, password (user)
+// user details --> bio, name, age, gender, phoneNum, enrollmentNum, 
+//department, batch, semester, school (school name, percentage marks, city), 
+//city, country, hobby, achievements, profilePic  (userdetails)
+// 
+app.listen(process.env.PORT, ()=>{
+    console.log(`Server started at port ${process.env.PORT}`)
 })
-
-app.get("/allUser", function (req, res) {
-    try {
-        res.send(users);
-    } catch (err) {
-        console.log("something went wrong");
-    }
-})
-
-app.get("/allUser/:name", function (req, res) {
-    try {
-        let name = req.params.name;
-        let user = users.find(u => u.name === name); 
-        if (user) {
-            res.send(user); 
-        } else {
-            res.status(404).send({ message: "User not found" }); 
-        }
-    } catch (err) {
-        console.log("something went wrong");
-        res.status(500).send({ message: "Internal server error" });
-    }
-})
-
-app.listen(process.env.PORT, () => {
-    console.log(`Server starting at port ${process.env.PORT}`);
-});
