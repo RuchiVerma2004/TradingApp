@@ -24,16 +24,10 @@ const registerUser = async (req, res) => {
     }
 };
 const getUser = async (req, res) => {
-    try {
-        const usernames = req.query.usernames.split(',');
-
-        const users = await User.find({ username: { $in: usernames } });
-
-        if (users.length > 0) {
-            res.send(users);
-        } else {
-            res.status(404).send('No users found');
-        }
+    try{
+        User.find({})
+            .then(data => res.send(data))
+            .catch(err => res.send('something went wrong'))
     } catch (err) {
         console.log(err);
         res.status(500).send('Something went wrong');
